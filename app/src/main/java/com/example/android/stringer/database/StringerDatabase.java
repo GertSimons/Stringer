@@ -11,12 +11,11 @@ import android.util.Log;
 import static android.content.ContentValues.TAG;
 
 @Database(entities = {Client.class , Strings.class}, version = 1 , exportSchema = false)
-@TypeConverters((DateConverter.class))
+@TypeConverters(DateConverter.class)
 public abstract class StringerDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "stringers";
     private static final Object LOCK = new Object();
     private static StringerDatabase sInstance;
-    public abstract StringerDao stringerDAO();
 
 
     public static StringerDatabase getInstance(Context context){
@@ -32,4 +31,5 @@ public abstract class StringerDatabase extends RoomDatabase {
         return sInstance;
     }
 
+    public abstract StringerDao stringerDao();
 }

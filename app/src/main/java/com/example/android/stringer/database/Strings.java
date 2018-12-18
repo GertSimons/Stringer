@@ -14,24 +14,24 @@ public class Strings {
     private String typeOfString;
     private long tension;
     private Date dateStrung;
-    private Client client;
     private int clientID;
+    @Ignore
+    private Client client;
 
     @Ignore
-    public Strings(String typeOfString, long tension, Date dateStrung, Client client){
+    public Strings(String typeOfString, long tension, Date dateStrung){
         this.typeOfString = typeOfString;
         this.tension = tension;
         this.dateStrung = dateStrung;
-        this.client = client;
         this.clientID = client.getId();
     }
 
-    public Strings(int id, String typeOfString, long tension, Date dateStrung, Client client){
+    public Strings(int id, String typeOfString, long tension, Date dateStrung){
         this.id = id;
         this.typeOfString = typeOfString;
         this.tension = tension;
         this.dateStrung = dateStrung;
-        this.client = client;
+
         this.clientID = client.getId();
     }
 
@@ -67,13 +67,6 @@ public class Strings {
         this.dateStrung = dateStrung;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
     public int getClientID() {
         return clientID;
     }

@@ -37,11 +37,11 @@ public interface StringerDao {
     LiveData<List<Strings>> loadAllStrings(int id);
 
     @Insert
-    void insertString(String string);
+    void insertString(Strings string);
 
     @Update
-    void updateString(String string);
+    void updateString(Strings string);
 
     @Delete
-    void deleteString(String string);
+    void deleteString(Strings string);
     }
