@@ -4,9 +4,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity(tableName = "clients")
 public class Client {
@@ -22,7 +23,7 @@ public Client(String name, String firstName, Date dateCreated, ArrayList<Strings
         this.name = name;
         this.firstName = firstName;
         this.dateCreated = dateCreated;
-  //      this.strings = strings;
+        this.strings = strings;
     }
 
     public Client(int id,String name, String firstName, Date dateCreated, ArrayList<Strings> strings) {
@@ -30,7 +31,7 @@ public Client(String name, String firstName, Date dateCreated, ArrayList<Strings
         this.name = name;
         this.firstName = firstName;
         this.dateCreated = dateCreated;
-  //      this.strings = strings;
+        this.strings = strings;
     }
 
     public int getId() {
@@ -65,7 +66,7 @@ public Client(String name, String firstName, Date dateCreated, ArrayList<Strings
         this.dateCreated = dateCreated;
     }
 
-   public List<Strings> getStrings() {
+   public ArrayList<Strings> getStrings() {
        return strings;
    }
 

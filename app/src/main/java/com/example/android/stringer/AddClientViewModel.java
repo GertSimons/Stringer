@@ -10,7 +10,7 @@ public class AddClientViewModel extends ViewModel {
     private LiveData<Client> client;
 
     public AddClientViewModel(StringerDatabase database, int clientId){
-        client = database.stringerDAO().loadClientById(clientId);
+        client = database.stringerDao().loadClientById(clientId);
     }
 
     public LiveData<Client> getClient() {

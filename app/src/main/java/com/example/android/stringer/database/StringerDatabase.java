@@ -11,7 +11,7 @@ import android.util.Log;
 import static android.content.ContentValues.TAG;
 
 @Database(entities = {Client.class , Strings.class}, version = 1 , exportSchema = false)
-@TypeConverters(DateConverter.class)
+@TypeConverters({DateConverter.class, StringConverter.class})
 public abstract class StringerDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "stringers";
     private static final Object LOCK = new Object();

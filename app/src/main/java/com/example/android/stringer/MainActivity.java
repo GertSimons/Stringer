@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ClientAdapter.Ite
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
                         List<Client> clientList = mAdapter.getClientList();
-                        mDb.stringerDAO().deleteClient(clientList.get(position));
+                        mDb.stringerDao().deleteClient(clientList.get(position));
                     }
                 });
 

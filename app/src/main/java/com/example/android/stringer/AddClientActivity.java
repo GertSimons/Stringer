@@ -96,10 +96,10 @@ public class AddClientActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(mClientId == DEFAULT_CLIENT_ID) {
-                    sDb.stringerDAO().insertClient(client);
+                    sDb.stringerDao().insertClient(client);
                 } else {
                     client.setId(mClientId);
-                    sDb.stringerDAO().updateClient(client);
+                    sDb.stringerDao().updateClient(client);
                 }
                 finish();
             }
