@@ -1,76 +1,79 @@
 package com.example.android.stringer.database;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-
+import java.io.Serializable;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Date;
 
 
-@Entity(tableName = "clients")
-public class Client {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+public class Client implements Serializable {
+
+    private String id;
     private String name;
     private String firstName;
     private Date dateCreated;
-    private ArrayList<Strings> strings;
+    private Array bespanningen;
+    private String typeRacket;
+    private String imageUrl;
+    private String imageName;
 
-    @Ignore
-public Client(String name, String firstName, Date dateCreated, ArrayList<Strings> strings) {
+
+
+    public Client(){}
+
+    public Client(String name, String firstName, String typeRacket) {
         this.name = name;
         this.firstName = firstName;
-        this.dateCreated = dateCreated;
-        this.strings = strings;
+        this.typeRacket = typeRacket;
     }
 
-    public Client(int id,String name, String firstName, Date dateCreated, ArrayList<Strings> strings) {
-        this.id = id;
-        this.name = name;
-        this.firstName = firstName;
-        this.dateCreated = dateCreated;
-        this.strings = strings;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
     public Date getDateCreated() {
         return dateCreated;
     }
-
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
-
-   public ArrayList<Strings> getStrings() {
-       return strings;
-   }
-
-   public void setStrings(ArrayList<Strings> strings) {
-        this.strings = strings;
+    public Array getBespanningen() {
+        return bespanningen;
+    }
+    public void setBespanningen(Array bespanningen) {
+        this.bespanningen = bespanningen;
+ 
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    public String getImageName() {
+        return imageName;
+    }
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+    public String getTypeRacket() {
+        return typeRacket;
+    }
+    public void setTypeRacket(String typeRacket) {
+        this.typeRacket = typeRacket;
     }
 }
+

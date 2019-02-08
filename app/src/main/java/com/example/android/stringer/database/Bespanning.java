@@ -1,38 +1,22 @@
 package com.example.android.stringer.database;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "strings")
-public class Strings {
-    @PrimaryKey(autoGenerate = true)
+
+public class Bespanning {
+
     private int id;
     private String typeOfString;
     private long tension;
     private Date dateStrung;
     private int clientID;
-    @Ignore
-    private Client client;
 
-    @Ignore
-    public Strings(String typeOfString, long tension, Date dateStrung){
+    public Bespanning(String typeOfString, long tension, Date dateStrung, int clientID) {
         this.typeOfString = typeOfString;
         this.tension = tension;
         this.dateStrung = dateStrung;
-        this.clientID = client.getId();
-    }
-
-    public Strings(int id, String typeOfString, long tension, Date dateStrung){
-        this.id = id;
-        this.typeOfString = typeOfString;
-        this.tension = tension;
-        this.dateStrung = dateStrung;
-
-        this.clientID = client.getId();
+        this.clientID = clientID;
     }
 
     public int getId() {

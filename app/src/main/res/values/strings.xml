@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Stringer</string>
+    <string name="title_client_list">Clients</string>
+    <string name="title_client_detail">Client Detail</string>
 </resources>

@@ -1,95 +1,132 @@
 package com.example.android.stringer;
 
 import android.content.Context;
+import android.content.Intent;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.stringer.database.Client;
+import com.example.android.stringer.database.FirebaseUtil;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
+import java.util.ArrayList;
 
-/*
-
- */
 public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientViewHolder>{
-    private static final String DATE_FORMAT = "dd/MM/yyyy";
-    final private ItemClickListener mItemCLickListener;
+    ArrayList<Client> clients;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+    private ChildEventListener mChildListener;
+    private ImageView imageClient;
 
-    private List<Client> clientList;
-    private Context mcontext;
+    public ClientAdapter(){
+        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
+        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+        this.clients = FirebaseUtil.mClients;
+        mChildListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+                Client client = dataSnapshot.getValue(Client.class);
+                Log.d("Client: ", client.getFirstName());
+                client.setId(dataSnapshot.getKey());
 
+                clients.add(client);
+                notifyItemInserted(clients.size()-1);
 
-    public ClientAdapter(Context context, ItemClickListener listener){
-        mcontext = context;
-        mItemCLickListener = listener;
-    }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-    public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(mcontext)
-                .inflate(R.layout.activity_main, parent, false);
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-        return new ClientViewHolder(view);
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDatabaseReference.addChildEventListener(mChildListener);
     }
 
     @Override
-    public void onBindViewHolder(ClientViewHolder holder, int position){
-        Client client = clientList.get(position);
-        String name = client.getName() + " " + client.getFirstName();
-        String createdAt = dateFormat.format(client.getDateCreated());
+    public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        View itemView = LayoutInflater.from(context).inflate(R.layout.rv_row,parent,false);
 
-        holder.nameClient.setText(name);
-        holder.dateCreated.setText(createdAt);
+        return new ClientViewHolder(itemView);
     }
-
     @Override
-    public int getItemCount(){
-        if(clientList == null){
-            return 0;
-        }
-        return clientList.size();
+    public void onBindViewHolder(ClientViewHolder holder, int position) {
+        Client client = clients.get(position);
+        holder.bind(client);
+    }
+    @Override
+    public int getItemCount() {
+        return clients.size();
     }
 
-    public List<Client> getClientList() {return clientList;}
-
-    public void setClientList(List<Client> mClientList){
-        clientList = mClientList;
-        notifyDataSetChanged();
-    }
+    public class ClientViewHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener{
+        TextView tvFirstName;
+        TextView tvName;
 
 
-
-    public interface ItemClickListener{
-        void onItemClickListener(int itemId);
-    }
-    //inner class to create ViewHolders
-    class ClientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView nameClient;
-        TextView dateCreated;
-
-
-        public ClientViewHolder(View itemView){
+        public ClientViewHolder(View itemView) {
             super(itemView);
-            nameClient = itemView.findViewById(R.id.clientNameView);
-            dateCreated = itemView.findViewById(R.id.createdView);
+            tvFirstName = (TextView) itemView.findViewById(R.id.tvFirstName);
+            tvName = (TextView) itemView.findViewById((R.id.tvName));
+            imageClient = (ImageView) itemView.findViewById(R.id.imageClient);
 
             itemView.setOnClickListener(this);
         }
 
-
-
+        public void bind(Client client){
+            tvFirstName.setText(client.getFirstName());
+            tvName.setText(client.getName());
+            showImage(client.getImageUrl());
+        }
 
         @Override
-        public void onClick(View view){
-            int elementId = clientList.get(getAdapterPosition()).getId();
-            mItemCLickListener.onItemClickListener(elementId);
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.d("click" , String.valueOf((position)));
+            Client selectedClient = clients.get(position);
+
+            Intent intent = new Intent(itemView.getContext(), AddClientActivity.class);
+            intent.putExtra("Client", selectedClient);
+
+            itemView.getContext().startActivity(intent);
+        }
+
+        private void showImage(String url){
+            if (url != null) {
+                Picasso.get()
+                        .load(url)
+                        .resize(160,160)
+                        .centerCrop()
+                        .into(imageClient);
+
+            }
+
         }
     }
 }

@@ -1,108 +1,173 @@
 package com.example.android.stringer;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.android.stringer.database.Client;
-import com.example.android.stringer.database.StringerDatabase;
-import com.example.android.stringer.database.Strings;
+import com.example.android.stringer.database.FirebaseUtil;
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class AddClientActivity extends AppCompatActivity {
-    public static final String EXTRA_CLIENT_ID = "extraClientId";
-    public static final String INSTANCE_CLIENT_ID = "instanceTaskId";
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+    private static final int PICTURE_RESULT = 42;
+    EditText txtName;
+    EditText txtFirstName;
+    EditText txtDate;
+    EditText txtTypeRacket;
+    Client client;
+    ImageView imageView;
 
-    private static final int DEFAULT_CLIENT_ID = 1;
 
-    private int mClientId = DEFAULT_CLIENT_ID;
-    private StringerDatabase sDb;
-    EditText mName;
-    EditText mFirstName;
-    Button mButton;
-
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_client);
 
-        initViews();
+        //FirebaseUtil.openFbReference("stringer");
+        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
+        mDatabaseReference = FirebaseUtil.mDatabaseReference;
 
-        sDb = StringerDatabase.getInstance(getApplicationContext());
-
-        if(savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_CLIENT_ID)){
-            mClientId = savedInstanceState.getInt(INSTANCE_CLIENT_ID,DEFAULT_CLIENT_ID);
-        }
+        txtName = (EditText)findViewById(R.id.txtName);
+        txtFirstName = (EditText)findViewById(R.id.txtFirstName);
+        txtDate = (EditText)findViewById(R.id.txtDateCreated);
+        txtTypeRacket =(EditText)findViewById(R.id.txtTypeRacket);
+        imageView = (ImageView) findViewById(R.id.image);
 
         Intent intent = getIntent();
-        if(intent != null && intent.hasExtra(EXTRA_CLIENT_ID)){
-            if(mClientId == DEFAULT_CLIENT_ID){
-                mClientId = intent.getIntExtra(EXTRA_CLIENT_ID,DEFAULT_CLIENT_ID);
-                AddClientViewModelFactory factory =new AddClientViewModelFactory(sDb, mClientId);
-
-                final AddClientViewModel viewModel = ViewModelProviders.of(this,factory).get(AddClientViewModel.class);
-
-                viewModel.getClient().observe(this, new Observer<Client>(){
-                    @Override
-                    public void onChanged(@Nullable Client client){
-                        viewModel.getClient().removeObserver(this);
-                        populateUI(client);
-                    }
-
-                });
-            }
+        Client client = (Client) intent.getSerializableExtra("Client");
+        if(client==null){
+            client = new Client();
         }
-    }
-    protected void onSaveInstanceState(Bundle outstate){
-        outstate.putInt(INSTANCE_CLIENT_ID,mClientId);
-        super.onSaveInstanceState(outstate);
-    }
-    private void initViews(){
-        mName = findViewById(R.id.editTextName);
-        mFirstName = findViewById(R.id.editTextFirstName);
-
-        mButton = findViewById(R.id.saveButton);
-        mButton.setOnClickListener(new View.OnClickListener(){
+        this.client = client;
+        txtName.setText(client.getName());
+        txtFirstName.setText((client.getFirstName()));
+        txtTypeRacket.setText(client.getTypeRacket());
+        showImage(client.getImageUrl());
+        Button btnImage = findViewById(R.id.btnImage);
+        btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                onSaveButtonClicked();
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(intent.createChooser(intent, "insert picture"), PICTURE_RESULT);
+
             }
         });
-    }
 
-    private void populateUI(Client client){
-        if(client == null){
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.save_menu:
+                saveClient();
+                Toast.makeText(this,"Client saved",Toast.LENGTH_LONG).show();
+                clean();
+                backToMainActivity();
+                return true;
+            case R.id.delete_menu:
+                deleteClient();
+                Toast.makeText(this,"Client deleted",Toast.LENGTH_LONG).show();
+                backToMainActivity();
+
+        }
+        return true;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_menu, menu);
+        return true;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICTURE_RESULT && resultCode == RESULT_OK){
+            Uri imageUri = data.getData();
+            StorageReference ref = FirebaseUtil.mStorageRef.child(imageUri.getLastPathSegment());
+            ref.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                   Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                   result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                       @Override
+                       public void onSuccess(Uri uri) {
+                           String imageLink = uri.toString();
+                           client.setImageUrl(imageLink);
+                           showImage(imageLink);
+                           Log.d("URL: ", imageLink);
+                       }
+                   });
+                    String pictureName = taskSnapshot.getStorage().getPath();
+                    client.setImageName(pictureName);
+                    Log.d("Name", pictureName);
+
+                }
+            });
+        }
+    }
+    private void clean(){
+        txtDate.setText("");
+        txtTypeRacket.setText("");
+        txtName.setText("");
+        txtFirstName.setText("");
+        txtName.requestFocus();
+    }
+    private void saveClient() {
+        client.setName(txtName.getText().toString());
+        client.setFirstName(txtFirstName.getText().toString());
+        client.setTypeRacket(txtTypeRacket.getText().toString());
+        if(client.getId()==null){
+            mDatabaseReference.push().setValue(client);
+        } else {
+            mDatabaseReference.child(client.getId()).setValue(client);
+        }
+    }
+    private void deleteClient(){
+        if ( client == null){
+            Toast.makeText(this, "please save the deal before deleting", Toast.LENGTH_LONG).show();
             return;
         }
-        mFirstName.setText(client.getFirstName());
-        mName.setText(client.getName());
+        mDatabaseReference.child(client.getId()).removeValue();
     }
-    public void onSaveButtonClicked(){
-        String name = mName.getText().toString();
-        String firstName = mFirstName.getText().toString();
-        Date date = new Date();
-        ArrayList<Strings> stringsList = new ArrayList<Strings>();
+    private void backToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
-        final Client client = new Client(name,firstName,date,stringsList);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                if(mClientId == DEFAULT_CLIENT_ID) {
-                    sDb.stringerDao().insertClient(client);
-                } else {
-                    client.setId(mClientId);
-                    sDb.stringerDao().updateClient(client);
-                }
-                finish();
-            }
-        });
     }
+    private void showImage(String url) {
+        if (url != null) {
+            int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+            Picasso.get()
+                    .load(url)
+                    .resize(width, width*2/3)
+                    .centerCrop()
+                    .into(imageView);
+        }
+    }
+
 }
