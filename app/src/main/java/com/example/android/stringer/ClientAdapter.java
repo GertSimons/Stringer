@@ -34,7 +34,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
     public ClientAdapter(){
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
-        this.clients = FirebaseUtil.mClients;
+        clients = FirebaseUtil.mClients;
         mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
