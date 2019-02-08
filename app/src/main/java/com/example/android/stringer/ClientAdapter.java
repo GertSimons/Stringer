@@ -104,7 +104,6 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
             tvName.setText(client.getName());
             showImage(client.getImageUrl());
         }
-
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
