@@ -22,13 +22,7 @@ public class ClientListFragment extends Fragment{
     View view;
 
     FloatingActionButton floatingActionButton;
-    private OnItemSelectedListener listener;
-
-    public interface OnItemSelectedListener {
-        public void onItemSelected(Client i);
-    }
-
-    public ClientListFragment(){}
+    RecyclerView rvClients;
 
     @Nullable
     @Override
@@ -38,13 +32,14 @@ public class ClientListFragment extends Fragment{
         view = inflater.inflate(R.layout.fragment_client_list, container, false);
         initRecyclerView();
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.floatingActionButton);
+        rvClients = (RecyclerView) view.findViewById(R.id.rvClients);
 
         return view;
     }
 
     private void initRecyclerView() {
         LinearLayoutManager clientsLayoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
-        RecyclerView rvClients = view.findViewById(R.id.rvClients);
+        rvClients = view.findViewById(R.id.rvClients);
         rvClients.setLayoutManager(clientsLayoutManager);
         ClientAdapter adapter = new ClientAdapter();
         rvClients.setAdapter(adapter);

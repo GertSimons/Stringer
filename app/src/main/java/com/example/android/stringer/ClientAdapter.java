@@ -45,7 +45,6 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
 
                 clients.add(client);
                 notifyItemInserted(clients.size()-1);
-
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

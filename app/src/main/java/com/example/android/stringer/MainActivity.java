@@ -16,7 +16,7 @@ import com.firebase.ui.auth.AuthUI;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ClientListFragment.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     ArrayList<Client> clients;
 
 
@@ -28,10 +28,7 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
 
     }
 
-    @Override
-    public void onItemSelected(Client i) {
 
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
