@@ -9,24 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.android.stringer.database.Client;
-
-
+import com.example.android.stringer.database.FirebaseUtil;
 
 
 public class DetailFragment extends Fragment {
     Client client;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        client = (Client) getArguments().getSerializable("client");
-
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_client_detail, container, false);
 
+        client = (Client) getArguments().getSerializable("client");
+        FirebaseUtil.openFbReference("stringer");
         TextView tvName = (TextView) view.findViewById(R.id.txtVwName);
         tvName.setText(client.getName());
 

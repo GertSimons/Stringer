@@ -31,13 +31,13 @@ public class FirebaseUtil {
 
     private FirebaseUtil(){};
 
-    public static void openFbReference(String ref, final Activity callerActivity){
+    public static void openFbReference(String ref/*, final Activity callerActivity*/){
         if(firebaseUtil == null){
             firebaseUtil = new FirebaseUtil();
             mFirebaseDatabase = FirebaseDatabase.getInstance();
 
             mFirebaseAuth = FirebaseAuth.getInstance();
-            caller = callerActivity;
+            /*caller = callerActivity;
             mAuthListener = new FirebaseAuth.AuthStateListener(){
 
                 @Override
@@ -47,13 +47,13 @@ public class FirebaseUtil {
                     }Toast.makeText(callerActivity.getBaseContext(),"Welcome back!", Toast.LENGTH_LONG).show();
                 }
             };
-            connectStorage();
+            connectStorage();*/
         }
         mClients = new ArrayList<Client>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
     }
 
-    private static void signIn(){
+ /*   private static void signIn(){
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -73,7 +73,7 @@ public class FirebaseUtil {
     }
     public static void removeListener(){
         mFirebaseAuth.removeAuthStateListener(mAuthListener);
-    }
+    }*/
     public static void connectStorage(){
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference().child("Rackets");

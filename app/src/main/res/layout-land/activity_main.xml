@@ -6,14 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".MainActivity">
+
+
     <fragment
-        class="com.example.android.stringer.ClientListFragment"
-        android:id="@+id/clientListFragment"
+        android:id="@+id/fragment3"
+        android:name="com.example.android.stringer.DetailFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="326dp"
+        android:layout_weight="1" />
+
     <fragment
-        class="com.example.android.stringer.DetailFragment"
-        android:id="@+id/DetailFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:id="@+id/fragment2"
+        android:name="com.example.android.stringer.ClientListFragment"
+        android:layout_width="606dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 </LinearLayout>

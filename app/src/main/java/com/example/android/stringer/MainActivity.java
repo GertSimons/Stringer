@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == R.id.logout_menu){
+        /*if(item.getItemId() == R.id.logout_menu){
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener((task)->{Log.d("Logout","User Logged Out");
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             FirebaseUtil.removeListener();
             return true;
 
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 

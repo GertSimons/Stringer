@@ -30,25 +30,10 @@ public class ClientListFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_client_list, container, false);
+        FirebaseUtil.openFbReference("stringer");
         initRecyclerView();
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.floatingActionButton);
         rvClients = (RecyclerView) view.findViewById(R.id.rvClients);
-
-        return view;
-    }
-
-    private void initRecyclerView() {
-        LinearLayoutManager clientsLayoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
-        rvClients = view.findViewById(R.id.rvClients);
-        rvClients.setLayoutManager(clientsLayoutManager);
-        ClientAdapter adapter = new ClientAdapter();
-        rvClients.setAdapter(adapter);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -57,16 +42,28 @@ public class ClientListFragment extends Fragment{
             }
         });
 
+        return view;
     }
+
+    private void initRecyclerView() {
+        rvClients = view.findViewById(R.id.rvClients);
+
+        LinearLayoutManager clientsLayoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
+        final ClientAdapter adapter = new ClientAdapter();
+
+        rvClients.setAdapter(adapter);
+        rvClients.setLayoutManager(clientsLayoutManager);
+    }
+
     @Override
     public void onPause(){
         super.onPause();
-        FirebaseUtil.removeListener();
+      //  FirebaseUtil.removeListener();
     }
     @Override
     public void onResume(){
         super.onResume();
-        FirebaseUtil.openFbReference("stringer", this.getActivity());
-        FirebaseUtil.attachListener();
+        FirebaseUtil.openFbReference("stringer");
+       // FirebaseUtil.attachListener();
     }
 }
