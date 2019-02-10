@@ -2,9 +2,12 @@ package com.example.android.stringer;
 
 import android.content.Context;
 import android.content.Intent;
-
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.stringer.database.Client;
 import com.example.android.stringer.database.FirebaseUtil;
@@ -30,9 +34,11 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
     private ImageView imageClient;
+    Context c;
 
-    public ClientAdapter(){
 
+    public ClientAdapter(Context c){
+        this.c = c;
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         this.clients = FirebaseUtil.mClients;
@@ -70,24 +76,34 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
     @Override
     public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View itemView = LayoutInflater.from(context).inflate(R.layout.rv_row,parent,false);
+        View clientView = LayoutInflater.from(context).inflate(R.layout.rv_row,parent,false);
 
-        return new ClientViewHolder(itemView);
+        return new ClientViewHolder(clientView);
     }
     @Override
     public void onBindViewHolder(ClientViewHolder holder, int position) {
         Client client = clients.get(position);
         holder.bind(client);
+        holder.tvName.setText(client.getName());
+        holder.tvFirstName.setText((client.getFirstName()));
+
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Toast.makeText(c , client.getFirstName(),Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
     @Override
     public int getItemCount() {
         return clients.size();
     }
-
-    public class ClientViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener{
+    public class ClientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener    {
         TextView tvFirstName;
         TextView tvName;
+        ImageView imageClient;
+        ItemClickListener itemClickListener;
 
 
         public ClientViewHolder(View itemView) {
@@ -104,16 +120,27 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
             tvName.setText(client.getName());
             showImage(client.getImageUrl());
         }
+
+        public void setItemClickListener(ItemClickListener itemClickListener){
+            this.itemClickListener=itemClickListener;
+        }
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
             Log.d("click" , String.valueOf((position)));
             Client selectedClient = clients.get(position);
 
-            Intent intent = new Intent(itemView.getContext(), AddClientActivity.class);
-            intent.putExtra("Client", selectedClient);
 
-            itemView.getContext().startActivity(intent);
+            if(c.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                Fragment newFragment = new DetailFragment(selectedClient);
+                
+            }else {
+                Intent intent = new Intent(itemView.getContext(), AddClientActivity.class);
+                intent.putExtra("Client", selectedClient);
+
+                itemView.getContext().startActivity(intent);
+            }
+
         }
 
         private void showImage(String url){
@@ -123,9 +150,8 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
                         .resize(160,160)
                         .centerCrop()
                         .into(imageClient);
-
             }
-
         }
     }
+
 }

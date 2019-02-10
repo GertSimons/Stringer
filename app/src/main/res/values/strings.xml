@@ -2,4 +2,6 @@
     <string name="app_name">Stringer</string>
     <string name="title_client_list">Clients</string>
     <string name="title_client_detail">Client Detail</string>
+    <string name="name">Name</string>
+    <string name="firstname">Firstname</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.android.stringer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.android.stringer.database.Client;
 import com.example.android.stringer.database.FirebaseUtil;
@@ -18,20 +20,40 @@ import com.example.android.stringer.database.FirebaseUtil;
 import java.util.ArrayList;
 
 public class ClientListFragment extends Fragment{
-    ArrayList<Client> clients;
     View view;
 
     FloatingActionButton floatingActionButton;
     RecyclerView rvClients;
+    ClientAdapter adapter;
+    private OnItemSelectedListener listener;
 
-    @Nullable
+
+    public interface OnItemSelectedListener {
+        public void onItemSelected(Client client);
+    }
+
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnItemSelectedListener) {
+            listener = (OnItemSelectedListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement ItemsListFragment.OnItemSelectedListener");
+        }
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_client_list, container, false);
         FirebaseUtil.openFbReference("stringer");
         initRecyclerView();
+
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.floatingActionButton);
         rvClients = (RecyclerView) view.findViewById(R.id.rvClients);
 
@@ -49,10 +71,10 @@ public class ClientListFragment extends Fragment{
         rvClients = view.findViewById(R.id.rvClients);
 
         LinearLayoutManager clientsLayoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
-        final ClientAdapter adapter = new ClientAdapter();
-
+        adapter = new ClientAdapter(this.getContext());
         rvClients.setAdapter(adapter);
         rvClients.setLayoutManager(clientsLayoutManager);
+
     }
 
     @Override

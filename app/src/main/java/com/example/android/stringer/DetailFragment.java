@@ -1,5 +1,6 @@
 package com.example.android.stringer;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,24 @@ import com.example.android.stringer.database.FirebaseUtil;
 
 public class DetailFragment extends Fragment {
     Client client;
+    TextView tvName;
+    TextView tvFirstName;
+
+    public DetailFragment(){}
+    @SuppressLint("ValidFragment")
+    public DetailFragment(Client client){
+        this.client = client;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        if(client == null){
+            client = new Client("Testnaam", "Testvoornaam", "testTypeRacket");
+        } else {
+            client = (Client) getArguments().getSerializable("client");
+        }
+    }
+
 
     @Nullable
     @Override
@@ -21,18 +40,20 @@ public class DetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_client_detail, container, false);
 
-        client = (Client) getArguments().getSerializable("client");
-        FirebaseUtil.openFbReference("stringer");
-        TextView tvName = (TextView) view.findViewById(R.id.txtVwName);
-        tvName.setText(client.getName());
+        //FirebaseUtil.openFbReference("stringer");
+        tvName = (TextView) view.findViewById(R.id.txtVwName);
 
-        TextView tvFirstName = (TextView) view.findViewById(R.id.txtFirstName);
+        tvName.setText(client.getName());
+        //tvName.setText("test");
+
+        TextView tvFirstName = (TextView) view.findViewById(R.id.txtVwFirstName);
         tvFirstName.setText(client.getFirstName());
+        //tvFirstName.setText("testvoornaam");
 
         /*TextView dateCreated = (TextView) view.findViewById(R.id.txtVwDateCreated);
         dateCreated.;*/
 
-        TextView typeRacket = (TextView) view.findViewById(R.id.txtTypeRacket);
+        /*TextView typeRacket = (TextView) view.findViewById(R.id.txtTypeRacket);
         typeRacket.setText(client.getTypeRacket());
 
         /*ImageView image = (ImageView) view.findViewById(R.id.imageClient);

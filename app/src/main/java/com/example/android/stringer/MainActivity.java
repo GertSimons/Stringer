@@ -1,30 +1,26 @@
 package com.example.android.stringer;
 
 
-import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.example.android.stringer.database.Client;
-import com.example.android.stringer.database.FirebaseUtil;
-import com.firebase.ui.auth.AuthUI;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ClientListFragment.OnItemSelectedListener{
     ArrayList<Client> clients;
-
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            setContentView(R.layout.activity_main);
 
     }
 
@@ -53,4 +49,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemSelected(Client client) {
+
+    }
 }

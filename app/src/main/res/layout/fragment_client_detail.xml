@@ -3,20 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/imageClient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginLeft="8dp" />
+
 
     <TextView
         android:id="@+id/txtVwName"
-        android:text="Name"
+        android:text="@string/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -32,7 +23,7 @@
         />
     <TextView
         android:id="@+id/txtVwFirstName"
-        android:text="Firstname"
+        android:text="@string/firstname"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,41 +39,5 @@
         app:layout_constraintStart_toStartOf="parent"
 
         />
-    <TextView
-        android:id="@+id/txtVwDateCreated"
-        android:text="Date"
 
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        />
-    <TextView
-        android:id="@+id/txtVwTypeRacket"
-        android:text="Type Racket"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-
-
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        />
 </LinearLayout>
