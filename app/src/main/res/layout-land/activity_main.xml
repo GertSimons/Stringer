@@ -6,21 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity"
+    tools:context=".Activities.MainActivity"
     android:baselineAligned="false">
 
-
-    <fragment
-        android:id="@+id/fragment3"
-        android:name="com.example.android.stringer.ClientListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="326dp"
-        android:layout_weight="1" />
-
-    <fragment
-        android:id="@+id/fragment2"
-        android:name="com.example.android.stringer.DetailFragment"
-        android:layout_width="606dp"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:id="@+id/ClientListContainer">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/ClientDetailContainer">
+
+    </FrameLayout>
 </LinearLayout>

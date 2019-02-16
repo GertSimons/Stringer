@@ -1,9 +1,8 @@
-package com.example.android.stringer;
+package com.example.android.stringer.Fragments;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,33 +11,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.example.android.stringer.Activities.AddClientActivity;
+import com.example.android.stringer.Adapter.ClientAdapter;
+import com.example.android.stringer.R;
 import com.example.android.stringer.database.Client;
 import com.example.android.stringer.database.FirebaseUtil;
 
-import java.util.ArrayList;
-
 public class ClientListFragment extends Fragment{
     View view;
-
     FloatingActionButton floatingActionButton;
     RecyclerView rvClients;
     ClientAdapter adapter;
     private OnItemSelectedListener listener;
 
-
     public interface OnItemSelectedListener {
-        public void onItemSelected(Client client);
+        void onItemSelected(Client client);
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnItemSelectedListener) {
+            listener = (OnItemSelectedListener) context;
         } else {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement ItemsListFragment.OnItemSelectedListener");
         }
     }
@@ -54,16 +51,11 @@ public class ClientListFragment extends Fragment{
         FirebaseUtil.openFbReference("stringer");
         initRecyclerView();
 
-        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.floatingActionButton);
-        rvClients = (RecyclerView) view.findViewById(R.id.rvClients);
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        rvClients = view.findViewById(R.id.rvClients);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                startActivity(new Intent(getActivity(), AddClientActivity.class));
-            }
-        });
-
+        floatingActionButton.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), AddClientActivity.class)));
         return view;
     }
 
@@ -71,7 +63,7 @@ public class ClientListFragment extends Fragment{
         rvClients = view.findViewById(R.id.rvClients);
 
         LinearLayoutManager clientsLayoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
-        adapter = new ClientAdapter(this.getContext());
+        adapter = new ClientAdapter();
         rvClients.setAdapter(adapter);
         rvClients.setLayoutManager(clientsLayoutManager);
 

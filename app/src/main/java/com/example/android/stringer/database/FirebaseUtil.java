@@ -29,7 +29,7 @@ public class FirebaseUtil {
     public static FirebaseStorage mStorage;
     public static StorageReference mStorageRef;
 
-    private FirebaseUtil(){};
+    private FirebaseUtil(){}
 
     public static void openFbReference(String ref/*, final Activity callerActivity*/){
         if(firebaseUtil == null){
