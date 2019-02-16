@@ -6,7 +6,6 @@ import java.util.Date;
 
 
 public class Client implements Serializable {
-
     private String id;
     private String name;
     private String firstName;
@@ -15,8 +14,6 @@ public class Client implements Serializable {
     private String typeRacket;
     private String imageUrl;
     private String imageName;
-
-
 
     public Client(){}
 

@@ -9,12 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import com.example.android.stringer.Fragments.ClientListFragment;
 import com.example.android.stringer.Fragments.DetailFragment;
 import com.example.android.stringer.R;
 import com.example.android.stringer.database.Client;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ClientListFragment.OnItemSelectedListener {
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
             clientDetailFragment = new DetailFragment();
             fragmentManager.beginTransaction().add(R.id.ClientDetailContainer, clientDetailFragment, DETAIL_TAG).commit();
         }
-
     }
 
     @Override
@@ -51,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.log_out_menu, menu);
         MenuItem logoutMenu = menu.findItem(R.id.logout_menu);
-
         return true;
     }
     @Override
@@ -67,13 +63,11 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
         }*/
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onItemSelected(Client client) {
         clientDetailFragment.setClient(client);
     }
-
-    public static DetailFragment getClientDetailFragment(){
+    public static DetailFragment getClientDetailFragment() {
         return clientDetailFragment;
     }
     public static void refreshDetailFragment(Fragment fragment){

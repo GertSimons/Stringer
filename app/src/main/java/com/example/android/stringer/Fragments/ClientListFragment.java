@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.example.android.stringer.Activities.AddClientActivity;
 import com.example.android.stringer.Adapter.ClientAdapter;
 import com.example.android.stringer.R;
@@ -19,11 +18,11 @@ import com.example.android.stringer.database.Client;
 import com.example.android.stringer.database.FirebaseUtil;
 
 public class ClientListFragment extends Fragment{
-    View view;
+    private OnItemSelectedListener listener;
     FloatingActionButton floatingActionButton;
     RecyclerView rvClients;
     ClientAdapter adapter;
-    private OnItemSelectedListener listener;
+    View view;
 
     public interface OnItemSelectedListener {
         void onItemSelected(Client client);
@@ -39,11 +38,6 @@ public class ClientListFragment extends Fragment{
                     + " must implement ItemsListFragment.OnItemSelectedListener");
         }
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
-    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -58,15 +52,12 @@ public class ClientListFragment extends Fragment{
                 startActivity(new Intent(getActivity(), AddClientActivity.class)));
         return view;
     }
-
     private void initRecyclerView() {
         rvClients = view.findViewById(R.id.rvClients);
-
         LinearLayoutManager clientsLayoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
         adapter = new ClientAdapter();
         rvClients.setAdapter(adapter);
         rvClients.setLayoutManager(clientsLayoutManager);
-
     }
 
     @Override
