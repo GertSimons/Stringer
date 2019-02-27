@@ -5,7 +5,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:orientation="horizontal"
-tools:context=".Activities.MainActivity">
+tools:context=".Activities.MainActivity"
+    android:id="@+id/linearlayout">
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"

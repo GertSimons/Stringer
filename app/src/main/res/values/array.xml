@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_color_option_labels">
+        <!--<item>@string/pref_color_label_black</item>-->
+        <item>@string/pref_color_label_red</item>
+        <item>@string/pref_color_label_blue</item>
+        <item>@string/pref_color_label_white</item>
+    </array>
+    <array name="pref_color_option_values">
+        <!--<item>@string/pref_color_black_value</item>-->
+        <item>@string/pref_color_red_value</item>
+        <item>@string/pref_color_blue_value</item>
+        <item>@string/pref_color_white_value</item>
+    </array>
+</resources>

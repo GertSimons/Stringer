@@ -52,26 +52,21 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
                 clients.add(client);
                 notifyItemInserted(clients.size() - 1);
             }
-
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
             }
-
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
             }
-
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
         mDatabaseReference.addChildEventListener(mChildListener);
     }
-
     @Override
     public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -141,7 +136,6 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientView
             } else {
                 Intent intent = new Intent(itemView.getContext(), AddClientActivity.class);
                 intent.putExtra("Client", selectedClient);
-
                 itemView.getContext().startActivity(intent);
             }
         }

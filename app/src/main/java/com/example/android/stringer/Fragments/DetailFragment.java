@@ -8,11 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.android.stringer.R;
 import com.example.android.stringer.database.Client;
-
-
 
 public class DetailFragment extends Fragment {
     Client client;

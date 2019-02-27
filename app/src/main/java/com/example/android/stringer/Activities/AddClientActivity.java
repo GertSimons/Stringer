@@ -90,6 +90,12 @@ public class AddClientActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showImage(client.getImageUrl());
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -115,20 +121,19 @@ public class AddClientActivity extends AppCompatActivity {
             byte[] imageData = baos.toByteArray();
 
             UploadTask uploadTask = mStorageRef.putBytes(imageData);
-            uploadTask.addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    result.addOnSuccessListener(uri -> {
-                        Uri downloadUrl = uri;
-                        String imageLink = uri.toString();
-                        client.setImageUrl(imageLink);
-                        Log.d("URL: ", imageLink);
-                    });
-                    String pictureName = taskSnapshot.getStorage().getPath();
-                    client.setImageName(pictureName);
-                    Log.d("Name " , pictureName);
-                }
+            uploadTask.addOnSuccessListener(this, taskSnapshot -> {
+                Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                result.addOnSuccessListener(uri -> {
+                    Uri downloadUrl = uri;
+                    String imageLink = uri.toString();
+                    client.setImageUrl(imageLink);
+                    Log.d("URL: ", imageLink);
+
+                });
+                String pictureName = taskSnapshot.getStorage().getPath();
+                client.setImageName(pictureName);
+                Log.d("Name " , pictureName);
+                showImage(client.getImageUrl());
             });
         }
     }
