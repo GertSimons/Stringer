@@ -25,17 +25,17 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
-    compile 'com.google.firebase:firebase-auth:16.1.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
 
     //add Recycler view dependencies; must match SDK version
     //noinspection GradleCompatible
-    compile 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 
     //FAB dependencies
-    compile 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
 
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
@@ -43,13 +43,13 @@ dependencies {
     //Testing
     // Instrumentation dependencies use androidTestCompile
     // (as opposed to testCompile for local unit tests run in the JVM)
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:28.0.0'
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
+   // androidTestimplementation'junit:junit:4.12'
+    //androidTestimplementation 'com.android.support:support-annotations:28.0.0'
+   // androidTestimplementation 'com.android.support.test:runner:1.0.2'
+    //androidTestimplementation 'com.android.support.test:rules:1.0.1'
 
     //Jackson
-    compile(
+    implementation(
             [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.4.1'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.4.1'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.4.1']
@@ -61,8 +61,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
 
 
-    compile 'com.android.support:preference-v7:28.0.0'
-    compile 'com.google.firebase:firebase-storage:16.0.5'
+    implementation 'com.android.support:preference-v7:28.0.0'
+    implementation 'com.google.firebase:firebase-storage:16.0.5'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
