@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import com.example.android.stringer.R;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static final String KEY_PREF_BACKGROUND_SWITCH = "background_switch";
     @Override
     protected void onCreate(Bundle savedInstanceState){
 

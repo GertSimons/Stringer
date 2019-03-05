@@ -1,13 +1,10 @@
 package com.example.android.stringer.Activities;
-
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
@@ -15,32 +12,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.example.android.stringer.Fragments.ClientListFragment;
 import com.example.android.stringer.Fragments.DetailFragment;
 import com.example.android.stringer.R;
 import com.example.android.stringer.database.Client;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ClientListFragment.OnItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "error in mainactivity";
-    ArrayList<Client> clients;
     private static final String DETAIL_TAG = "detail";
     private static final String CLIENT_LIST_TAG = "list";
-    ClientListFragment clientListFragment;
+    private static  int integerToChangeColor;
+    private static View view;
     static DetailFragment clientDetailFragment;
     static FragmentManager fragmentManager;
-
-
-    private static View view;
-    private static  int integerToChangeColor;
+    ClientListFragment clientListFragment;
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         fragmentManager = getSupportFragmentManager();
 
         clientListFragment = (ClientListFragment) fragmentManager.findFragmentByTag(CLIENT_LIST_TAG);
@@ -73,9 +64,6 @@ public class MainActivity extends AppCompatActivity implements ClientListFragmen
         }
         view.setBackgroundResource(integerToChangeColor);
     }
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         try{

@@ -95,6 +95,9 @@ public class AddClientActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         showImage(client.getImageUrl());
+        txtName.setText(client.getName());
+        txtFirstName.setText((client.getFirstName()));
+        txtTypeRacket.setText(client.getTypeRacket());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
